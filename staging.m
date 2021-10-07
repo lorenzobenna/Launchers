@@ -50,7 +50,7 @@ if abs(sum(DV_stg) - DV_req) > 1e-5 % Check final Delta_V
 end
 
 
-deriv2 = -(1 + p * C)./A + (eps./(1-eps.*A)).^2;   % Check > 0 {eqn 37}
+deriv2 = -(1 + p * C)./(A.^2) + (eps./(1-eps.*A)).^2;   % Check > 0 {eqn 37}
 if any(deriv2 < 0)
     
     error('Check stages(there is max)')

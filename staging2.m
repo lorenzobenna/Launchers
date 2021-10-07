@@ -1,8 +1,9 @@
-function [m0, m_stg, m_s, m_p, lambda, deltav] = staging2(N, eps, Isp, m_PL, h_orbit)
+function [m0, m_stg, m_subR, m_s, m_p, lambda, deltav] = staging2(N, eps, Isp, m_PL, h_orbit)
 
 % OUTPUT:
 % m0 : GLOM [kg]
 % m_stg : Vector of Stages Masses [kg]
+% m_subR : Vector of Subrockets Masses [kg]
 % m_s : Vector of Stages Structural Masses [kg]
 % m_p : Vector of Stages Propellant Masses [kg]
 % lambda : Vector of Payload Ratios [ ]
@@ -42,21 +43,24 @@ df = @(p) (sum(C.*log((1 + p.*C)./(p.*C.*eps))) - DV_req);                  % [ 
 Lambda = (1 + p_sol.*C)./(p_sol.*C.*eps);                                   % [ ]
 
 d2f = - (1 + p_sol.*C)./(Lambda.^2) + ((eps)./(1 - eps.*Lambda)).^2;        % [ ]
-if d2f <= 0
+if any(d2f <= 0)
     error('p_sol is not a minimum: try to change the initial guess for p')
 end
 
 lambda = (1 - Lambda.*eps)./((1 - eps).*Lambda);                            % [ ] - Stages paylaod ratio
 lambda_total = prod(lambda);                                                % [ ] - Total paylaod ratio
 
-m_stg(N) = m_PL/lambda(N);                                                  % [kg] - Final stage mass
-for j = N:-1:2
-    m_stg(j-1) = (sum(m_stg(j:end)) + m_PL)/lambda(j-1);                    % [kg] - Stages mass
-end
+m0 = m_pl/lambda_total;                                                     % [kg] - GLOM
 
-m0 = sum(m_stg) + m_PL;                                                     % [kg] - GLOM
-m_s = eps.*m_stg;                                                           % [kg] - Structural masses
-m_p = m_stg - m_s;                                                          % [kg] - Propellant masses
+m_subR = zeros(1, N+1);
+m_subR(end) = m_PL;                                                         % [kg] - Final subrocket mass
+
+for i = N:-1:1
+    m_subR(i) = m_subR(i+1)/lambda(i);                                    % [kg] - Subrockets masses
+    m_stg(i) = m_subR(i) - m_subR(i+1);                                     % [kg] - Stages masses
+    m_s(i) = m_stg(i)*eps(i);                                             % [kg] - Structural masses
+    m_p(i) = m_stg(i) - m_s(i);                                             % [kg] - Fuel or propellant mass
+end
 
 deltav = C.*log(Lambda);                                                    % [m/s] - Stages velocity increment
 
