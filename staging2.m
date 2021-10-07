@@ -1,4 +1,4 @@
-function [m0, m_stg, m_subR, m_s, m_p, lambda, deltav] = staging2(N, eps, Isp, m_PL, h_orbit)
+function [m0, m_stg, m_subR, m_s, m_p, lambda, deltav] = staging2(N, eps, Isp, m_pl, h_orbit)
 
 % OUTPUT:
 % m0 : GLOM [kg]
@@ -53,7 +53,7 @@ lambda_total = prod(lambda);                                                % [ 
 m0 = m_pl/lambda_total;                                                     % [kg] - GLOM
 
 m_subR = zeros(1, N+1);
-m_subR(end) = m_PL;                                                         % [kg] - Final subrocket mass
+m_subR(end) = m_pl;                                                         % [kg] - Final subrocket mass
 
 for i = N:-1:1
     m_subR(i) = m_subR(i+1)/lambda(i);                                      % [kg] - Subrockets masses

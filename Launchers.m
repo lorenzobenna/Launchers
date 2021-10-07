@@ -1,7 +1,3 @@
-clear all
-close all
-clc
-
 % Constants
 global mu R_earth w_earth g0
 
@@ -30,8 +26,6 @@ cD0 = [0.27 0.26 0.25 0.5 0.46 0.44 0.41 0.39 0.37...
     0.35 0.33 0.3 0.28 0.26 0.24 0.23 0.22 0.21]; % Drag coefficient %Cd0; cD0 oldu
 
 %% Step 1 Staging Problem
+%[m0, m_stg, m_subR, m_s, m_p, lambda, deltav] = staging2(N, eps, Isp, m_pl, h_orbit)
 [m0, m_subR, m_stg, m_str, m_prop, DV_req] = staging(N, Isp, eps, m_pl, h_orbit)
 %%
-%Changes
-%Jonny
-% Lorenzo
