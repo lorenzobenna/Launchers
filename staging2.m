@@ -56,9 +56,9 @@ m_subR = zeros(1, N+1);
 m_subR(end) = m_PL;                                                         % [kg] - Final subrocket mass
 
 for i = N:-1:1
-    m_subR(i) = m_subR(i+1)/lambda(i);                                    % [kg] - Subrockets masses
+    m_subR(i) = m_subR(i+1)/lambda(i);                                      % [kg] - Subrockets masses
     m_stg(i) = m_subR(i) - m_subR(i+1);                                     % [kg] - Stages masses
-    m_s(i) = m_stg(i)*eps(i);                                             % [kg] - Structural masses
+    m_s(i) = m_stg(i)*eps(i);                                               % [kg] - Structural masses
     m_p(i) = m_stg(i) - m_s(i);                                             % [kg] - Fuel or propellant mass
 end
 
