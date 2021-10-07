@@ -65,7 +65,9 @@ vDot = -(mu/norm(r)^3))*r + (Th/m)*u - (D/m)*u; % u is the direction of the laun
 deriv = [rDot; vDot];
 
 %spline        % Launcher parameter define
-
+[m0,m1,m2,m3] = staging_opti(m0, Isp, eps, m_PL);
+mdot_endo = (m1/(Isp(1)*g0))*(7*g0-(P_e*A_e/m1));
+mdot_exo = (m3/(Isp(2)*g0))*(5*g0);
 
 %% Initial Position 
 
