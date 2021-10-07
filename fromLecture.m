@@ -1,6 +1,6 @@
 %% 
 
-load('C:\Users\BAHAR\Desktop\5.bimester\Launchers\Assignment\BAHAR\dataOpt.mat')
+load('dataOpt.mat')
 
 Re =
 m0 =
